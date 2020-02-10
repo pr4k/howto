@@ -1,23 +1,16 @@
-os: osx # Only use OSX if it's really needed!
-
+os: osx
 language: go
-
 go:
-- tip # The latest version of Go.
+- tip
 before_script:
-  - go vet ./...
-
+- go vet ./...
 script:
-- "go build -o bin/howto"
-
+- go build -o bin/howto
 deploy:
   provider: releases
-  skip_cleanup: true 
-  github-token: $GITHUB_TOKEN  
-  email: $GITHUB_EMAIL
-  name: $GITHUB_USERNAME
+  api_key:
+    secure: y0tTopdgiA/PDOJSTMWhXKp7PWt9Z0oBz8QZdzvCl0j/syhTbShu78hYPW8PxVw9RaOL+yWMEV4lpVB9a9w/DxN/qQLOmvqyKXTqMWFWYj6Boq32Iz6JoM5TG6nZ8Pk2egUu2J4lpNBhlyNA8+jD1mP7M3juKCKXuHsIuPjC8dV8GwEftbd4g+wJg35pMYix+3WGGXcBPaIisyT2XrLgeRPnHeNJ9p7D1FRKbnW7ltKL60eKXeRhd6HcAlHoRoko0NHlwZGNtiH29oeNpwAZRfHKh7TWTku+mf1vIXbQsBq7z8cLkySeOT5kncQuegor954oGF0K3XaDMGhmpHvABUh/WKASdwWj6Q6u9TGScaXyj08VTuDF2M2zUQGcMs6Phg+bU52TWxiScvgRk4TSsZvB4EB8Yqu0jFA/nstxLrhKFGAv9cUAG8ViTZvQtGfOjscZB846r2MBOpBPg8ZORfTF18l7gmygt0wYSfTw5eE7YFcPNhKgGnmffKxdwlrT0kjn7YNT6zYtk/HWOQAw3Xft49sl09rk1fhVkAnH2WN2tK040qLImjPHhtQmauzFBt5ze/jJXIE7yRVi6llQQjRqDfzZxm3JYpl95K47jddHxiYVJ7Je0J2gJcNoYbWaCym+k+VAadV6StmEIIrIq4RVbSdBQA1hnCcLWHkO72o=
   file: bin/howto
   on:
     repo: pr4k/howto
-    tags: true # The deployment happens only if the commit has a tag.
-
+    tags: true
