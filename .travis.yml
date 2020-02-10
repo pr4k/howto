@@ -1,0 +1,23 @@
+os: osx # Only use OSX if it's really needed!
+
+language: go
+
+go:
+- tip # The latest version of Go.
+before_script:
+  - go vet ./...
+  
+script:
+- "./build.sh"
+
+deploy:
+  provider: releases
+  skip_cleanup: true 
+  github-token: $GITHUB_TOKEN  
+  email: $GITHUB_EMAIL
+  name: $GITHUB_USERNAME
+  file: bin/howto
+  on:
+    repo: pr4k/howto
+    tags: true # The deployment happens only if the commit has a tag.
+
