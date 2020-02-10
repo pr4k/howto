@@ -6,9 +6,9 @@ go:
 - tip # The latest version of Go.
 before_script:
   - go vet ./...
-  
+
 script:
-- "./build.sh"
+- "go build -o bin/howto"
 
 deploy:
   provider: releases
