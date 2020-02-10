@@ -6,32 +6,17 @@ import (
 	"os"
 	"strings"
 	"sync"
-
-	"github.com/akamensky/argparse"
 )
 
 func main() {
-	parser := argparse.NewParser("StackFlow", "Searches on Stack Overflow and return Answers")
 
-	s := parser.String("q", "query", &argparse.Options{Required: true, Help: "Query to Search"})
-	// Parse input
-
-	query := *s
-
-	query = strings.Replace(query, "\n", "", -1)
-	if query == "" && len(os.Args) > 1 {
+	var query string
+	if len(os.Args) > 1 {
 		query = "How to " + strings.Join(os.Args[1:], " ")
+		query = strings.Replace(query, "\n", "", -1)
 		search(query)
-	} else if query == "" && len(os.Args) == 1 {
-		err := parser.Parse(os.Args)
-		if err != nil {
-
-			fmt.Print(parser.Usage(err))
-		}
-
 	} else {
-		query = "How to " + query
-		search(query)
+		fmt.Println("Usage: howto <Your-Query>")
 	}
 }
 func search(query string) {
