@@ -11,6 +11,7 @@ deploy:
   api_key:
     secure: GWrjEIRlQm+k6sQw8rOZDnfNnZ1Q5f6rJORsqpn5KiFPiIiAoQpKfyVCSxhcQtaMIxe93hKzNh/RKNQB5qL/36bXLce8vsUjGDKVXme2+dG/rIThZ1IkdU7eKNbARSkDgD5hPdc1D+DkyIPm/cMg1sOg81qdPKB/zDcAZPqRjRoaE2QKxsk3hH1Tdg0DXeuaIBfvrriojbcmtkGz0MO0UtcY3SPF+StNuOR+fB1m5mTs0YdZh1FJlITGNz9bOyEU/hTJIw3MhmHzI07fYUXSwXZcnwOxMZGaLnjNhzqQitxDpU/ygWsSH0nRhCBFxj5OAmP073qL3ggHA58sEZx11dPirYcsPzKg7YLlp4nBk8Y3X8auJnRM9lM+t315OJ+EYUc3fd9F/AKU+EALmD06bG1fIXlVqgXWuyP3zJia7XFGahhrxMuhdo/zvgTAn2ziIaKHtxWIkc2RLb9Ki+8bhQE6jWBqiK9POe1vuK1X26Uqycr1VUeJPKY4M1q8MymUesgp+j4ZsjDHFJt5E3NNJeh6UdVMJxopapVODXvcmsF418/nVwN1FfKz1YbrBTFPOQcvdMRK/7iW7NxUolITNRN8DY5zUA+Xv0Fs55+qgx+5qZHluwpTO/Opq4Fso03SLtHpiEkY7s9vQMgXjuTjdhHO8TbsRms7ULaqagEQRf4=
   file: bin/howto
+  skip_cleanup: true
   on:
     repo: pr4k/howto
     tags: true
