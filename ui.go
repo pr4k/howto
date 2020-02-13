@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"strconv"
 
@@ -20,7 +21,6 @@ func createUI(quesList []string, description []string, allAnswers map[int][]solu
 			temp[i] = strconv.Itoa(i + 1)
 		}
 		return temp
-
 	}
 
 	if err := ui.Init(); err != nil {
@@ -70,42 +70,45 @@ func createUI(quesList []string, description []string, allAnswers map[int][]solu
 		quesBox.SetRect(width/2, 4, width, height-4)
 		quesListBox.SetRect(0, 4, width/2, height-4)
 
-		quesBox.Text = description[quesNum]
+		quesBox.Text = allAnswers[quesNum][0].description
 
 		ui.Render(quesBox, header, quesListBox)
 	}
 	scrollText := func(flag int, Box *Paragraph) {
 		if flag == 1 {
-			Box.start = quesBox.start + 2
-			Box.end = quesBox.end + 2
+			Box.start = Box.start + 2
+			Box.end = Box.end + 2
 		} else {
-			Box.start = quesBox.start - 2
-			Box.end = quesBox.end - 2
+			Box.start = Box.start - 2
+			Box.end = Box.end - 2
 		}
 
 		ui.Render(Box)
 	}
 	updateAnswer := func(ques int, quesNum int) {
 		width, height := ui.TerminalDimensions()
-
+		header.SetRect(0, height-4, width, height)
 		quesListBox.SetRect(0, 0, 0, 0)
 		answerBox.SetRect(width/2, 4, width, height-4)
 		quesBox.SetRect(0, 4, width/2, height-4)
 
-		if (acceptedAnswer[ques] == solution{} && len(allAnswers[ques]) != 1) {
-
-			answerBox.Text = allAnswers[ques][quesNum].description
-		} else if (len(allAnswers[ques]) == 1 && acceptedAnswer[ques] == solution{}) {
-
-			answerBox.Text = "Sorry no answer available"
-		} else {
-			if quesNum != 0 {
-				answerBox.Text = allAnswers[ques][quesNum].description
+		if (acceptedAnswer[ques] == solution{}) {
+			if len(allAnswers[ques]) == 1 {
+				answerBox.Text = "Sorry no answer available"
 			} else {
+				quesNum = quesNum + 1
+				answerBox.Text = allAnswers[ques][quesNum].description
+				answerBox.Title = "Solution - " + allAnswers[ques][quesNum].upvotes + " upvotes"
+			}
+		} else {
+			if quesNum == 0 {
 				answerBox.Text = acceptedAnswer[ques].description
+				answerBox.Title = "Solution (Accepted) - " + acceptedAnswer[ques].upvotes + " upvotes"
+			} else {
+				answerBox.Text = allAnswers[ques][quesNum].description
+				answerBox.Title = "Solution - " + allAnswers[ques][quesNum].upvotes + " upvotes"
 			}
 		}
-
 		ui.Render(quesBox, quesListBox, header, answerBox)
 
 	}
@@ -117,15 +120,19 @@ func createUI(quesList []string, description []string, allAnswers map[int][]solu
 		answerBox.SetRect(width/2, 4, width, height-4)
 		quesBox.SetRect(0, 4, width/2, height-4)
 		quesBox.Text = allAnswers[quesNum][0].description
+		quesBox.Title = fmt.Sprintf("Question %d", quesNum)
+		header.SetRect(0, height-4, width, height)
 		if (acceptedAnswer[quesNum] == solution{} && len(allAnswers[quesNum]) > 1) {
 			tabSlice = makeRange(len(allAnswers[quesNum]) - 1)
 			answerBox.Text = allAnswers[quesNum][1].description
+			answerBox.Title = "Solution - " + allAnswers[quesNum][1].upvotes + " upvotes"
 		} else if (len(allAnswers[quesNum]) == 1 && acceptedAnswer[quesNum] == solution{}) {
 
 			answerBox.Text = "Sorry no answer available"
 		} else {
 			tabSlice = makeRange(len(allAnswers[quesNum]))
 			answerBox.Text = acceptedAnswer[quesNum].description
+			answerBox.Title = "Solution (Accepted)- " + acceptedAnswer[quesNum].upvotes + " upvotes"
 		}
 
 		tabpane.TabNames = tabSlice
@@ -188,6 +195,7 @@ func createUI(quesList []string, description []string, allAnswers map[int][]solu
 			ui.Clear()
 			window = 1
 			focus = 2
+
 			showAnswer(quesListBox.SelectedRow)
 		case "<Backspace>":
 			ui.Clear()
@@ -199,13 +207,15 @@ func createUI(quesList []string, description []string, allAnswers map[int][]solu
 		case "<Tab>":
 			if window == 1 {
 				tabpane.FocusRight()
+
 				ui.Render(tabpane)
 				updateAnswer(quesListBox.SelectedRow, tabpane.ActiveTabIndex)
 				focus = 2
 			}
 		case "<C-z>":
 			tabpane.FocusLeft()
-			ui.Render(tabpane)
+
+			ui.Render(tabpane, header)
 			updateAnswer(quesListBox.SelectedRow, tabpane.ActiveTabIndex)
 		case "<C-d>":
 			quesListBox.ScrollHalfPageDown()

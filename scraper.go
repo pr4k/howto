@@ -37,14 +37,14 @@ func searchPost(query string) []post {
 		upvotes := item.Find(".vote-count-post").Text()
 		//fmt.Println(link)
 		if true || (strings.HasPrefix(title, "Q:") && index < 4) {
-			items = append(items, post{title, link, upvotes, description})
+			items = append(items, post{title, fmt.Sprintf("https://stackoverflow.com/%s", link), upvotes, description})
 			index++
 		}
 	})
 	return items
 }
 func getPost(node post) (solution, []solution) {
-	urlString := fmt.Sprintf("https://stackoverflow.com/%s", node.link)
+	urlString := node.link
 	res, err := goquery.NewDocument(urlString)
 	if err != nil {
 		log.Fatal(err)
@@ -52,7 +52,6 @@ func getPost(node post) (solution, []solution) {
 	var answers []solution
 	question := res.Find(".question").Find(".post-layout")
 	answers = append(answers, solution{strings.Trim(question.Find(".post-text").Text(), "\n"), question.Find(".js-vote-count").Text()})
-
 	acceptedContainer := res.Find(".accepted-answer").Find(".post-layout")
 	acceptedAnswer := solution{strings.Trim(acceptedContainer.Find(".post-text").Text(), "\n"), acceptedContainer.Find(".js-vote-count").Text()}
 
@@ -64,7 +63,7 @@ func getPost(node post) (solution, []solution) {
 			}
 		})
 	} else {
-		res.Find(".post-layout").Each(func(index int, item *goquery.Selection) {
+		res.Find(".answercell").Each(func(index int, item *goquery.Selection) {
 
 			if item.Find(".post-text").Text() != "" {
 				answers = append(answers, solution{strings.Trim(item.Find(".post-text").Text(), "\n"), item.Find(".js-vote-count").Text()})
