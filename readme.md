@@ -10,7 +10,8 @@
 ![Stars](https://img.shields.io/github/stars/pr4k/howto)
 
 ---
-howto is a terminal client for getting stackoverflow Answers for those who are constantly googling for doing basic programming tasks
+howto is a terminal client for getting stackoverflow Answers for those who are constantly googling for doing basic programming tasks.
+Now it uses both google as well as Stackoverflow to get the results, because lets agree, google's search algorithm is way better than stackoverflow's search algorithm.
 
 It is inspired by [Howdoi](https://github.com/gleitz/howdoi) and is purely written in Go
 
@@ -30,15 +31,17 @@ go install github.com/pr4k/howto
 ```
 then just do:
 
-```howto <Your-Query>```
+```howto <Your-Query>:mode <google/stackoverflow>```
+Note:- if mode is not specified then the default mode is google.
 
 ---
 # Features
  - Uses Go Routines to parallely scrape answers so time complexity is independent of number of solution
  - Provides Terminal ui to navigate and access answers
+ - Uses google's result along with stackoverflow's result.
 
 # To-Do
-- Add google results along with stackoverflow results
+- Add google results along with stackoverflow results (Done)
 - Implement Syntax Highlighting for code parts
 
 ---
