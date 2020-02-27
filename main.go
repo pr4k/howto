@@ -50,6 +50,7 @@ func search(query string) {
 		acceptedAnswers[index] = acceptedTemp
 		messages <- "done"
 	}
+
 	for index, item := range items {
 		go gettingPost(item.link, index, item)
 	}
