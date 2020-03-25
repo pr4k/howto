@@ -47,7 +47,7 @@ go install github.com/pr4k/howto
 # Usage
 
 
-```howto <Your-Query>:mode <google/stackoverflow>```
+```howto <Your-Query>:<google/stackoverflow>```
 Note:- if mode is not specified then the default mode is google.
 
 ---
