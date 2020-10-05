@@ -51,22 +51,22 @@ func getPost(node post) (solution, []solution) {
 	}
 	var answers []solution
 	question := res.Find(".question").Find(".post-layout")
-	answers = append(answers, solution{strings.Trim(question.Find(".post-text").Text(), "\n"), question.Find(".js-vote-count").Text()})
+	answers = append(answers, solution{strings.Trim(question.Find(".js-post-body").Text(), "\n"), question.Find(".js-vote-count").Text()})
 	acceptedContainer := res.Find(".accepted-answer").Find(".post-layout")
-	acceptedAnswer := solution{strings.Trim(acceptedContainer.Find(".post-text").Text(), "\n"), acceptedContainer.Find(".js-vote-count").Text()}
+	acceptedAnswer := solution{strings.Trim(acceptedContainer.Find(".js-post-body").Text(), "\n"), acceptedContainer.Find(".js-vote-count").Text()}
 
 	if (acceptedAnswer != solution{}) {
 		res.Find(".accepted-answer").NextAll().Each(func(index int, item *goquery.Selection) {
 
-			if item.Find(".post-text").Text() != "" {
-				answers = append(answers, solution{strings.Trim(item.Find(".post-text").Text(), "\n"), item.Find(".js-vote-count").Text()})
+			if item.Find(".js-post-body").Text() != "" {
+				answers = append(answers, solution{strings.Trim(item.Find(".js-post-body").Text(), "\n"), item.Find(".js-vote-count").Text()})
 			}
 		})
 	} else {
 		res.Find(".answercell").Each(func(index int, item *goquery.Selection) {
 
-			if item.Find(".post-text").Text() != "" {
-				answers = append(answers, solution{strings.Trim(item.Find(".post-text").Text(), "\n"), item.Find(".js-vote-count").Text()})
+			if item.Find(".js-post-body").Text() != "" {
+				answers = append(answers, solution{strings.Trim(item.Find(".js-post-body").Text(), "\n"), item.Find(".js-vote-count").Text()})
 			}
 		})
 	}
